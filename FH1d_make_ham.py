@@ -4,7 +4,7 @@ import numpy as np
 
 LENGTH = 16
 
-num_up_ferms = 4
+num_up_ferms = 2
 #initial_fermion_up = [0,0,0,0,1,1,0,0,0,0]
 #initial_fermion_up = [0,1,1,0]
 initial_fermion_up = [0 for _ in range(LENGTH)]
@@ -15,8 +15,8 @@ initial_state = b.State({'up': initial_fermion_up, 'down': initial_fermion_down}
 
 print(str(initial_state))
 
-from scipy.special import binom
-def fermion_comb(particles): return binom(LENGTH, particles)
+from math import factorial
+def fermion_comb(particles): return factorial(LENGTH)/factorial(LENGTH-particles)/factorial(particles)
 DIMENSION = int(fermion_comb(num_up_ferms) * fermion_comb(num_up_ferms))
 
 print(DIMENSION)
