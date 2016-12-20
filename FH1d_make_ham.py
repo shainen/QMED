@@ -4,7 +4,7 @@ import numpy as np
 
 LENGTH = 16
 
-num_up_ferms = 2
+num_up_ferms = 4
 #initial_fermion_up = [0,0,0,0,1,1,0,0,0,0]
 #initial_fermion_up = [0,1,1,0]
 initial_fermion_up = [0 for _ in range(LENGTH)]
