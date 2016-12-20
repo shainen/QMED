@@ -31,7 +31,7 @@ cp -r ${prj} $$SCRATCH_DIR/
 cd $$SCRATCH_DIR/
 
 # Run the script
-time python ${prj}/runTCMBL2d.wl
+time python ${prj}/FH1d_make_ham.py
 
 # Remove the now-useless files
 rm -r ${prj} 
