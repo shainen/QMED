@@ -10,7 +10,7 @@ topic=getcwd().split('/')[-4]
 qsubfile = Template("""
 #!/bin/sh
 #PBS -j oe
-#PBS -l mem=7500mb
+#PBS -l mem=32000mb
 #PBS -V
 #PBS -m ea
 #PBS -M shainen@gmail.com
@@ -29,7 +29,8 @@ cp -r ${prj} $$SCRATCH_DIR/
 cd $$SCRATCH_DIR/
 
 # Run the script
-time python ${prj}/FH1d_make_ham.py
+source activate root
+time python ${prj}/QMdynamics.py
 
 # Remove the now-useless files
 rm -r ${prj} 

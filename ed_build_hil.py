@@ -1,6 +1,8 @@
-from scipy.sparse import lil_matrix
+import time
+from scipy.sparse import lil_matrix, csr_matrix
 from copy import deepcopy
 import numpy as np
+from scipy.sparse.linalg import expm_multiply
 
 class State(dict):
     def __str__(self):
@@ -81,3 +83,25 @@ def load_sparse_csr(filename):
     loader = np.load(filename)
     return csr_matrix((  loader['data'], loader['indices'], loader['indptr']),
                          shape = loader['shape'])
+
+def _expec_diag_ops(psi,ops):
+    return np.real(list(
+                map(lambda op: np.einsum('i,i,i',np.conj(psi),op,psi),
+                   ops)
+            ))
+
+def diag_ops_dynamics(psi_0, ham, tsteps, dt, ops):
+    ops_t = []
+    psi_t = psi_0
+
+    ops_t.append(_expec_diag_ops(psi_t,ops))
+    for _ in range(tsteps - 1):
+        t1 = time.time()
+        psi_t = expm_multiply(1j*dt*ham,psi_t)
+        t2 = time.time()
+        print(t2-t1)
+        ops_t.append(_expec_diag_ops(psi_t,ops))
+        t3 = time.time()
+        print(t3-t2)
+
+    return np.array(ops_t).transpose()
