@@ -29,7 +29,6 @@ cp -r ${prj} $$SCRATCH_DIR/
 cd $$SCRATCH_DIR/
 
 # Run the script
-source activate root
 time python ${prj}/QMdynamics.py
 
 # Remove the now-useless files

@@ -25,6 +25,9 @@ num_up_diag = num_up_diag.transpose()
 
 ham = - hop_mat + U*int_mat
 
+hop_mat = None
+int_mat = None
+
 init_vec = np.zeros(DIMENSION)
 init_vec[0] = 1
 
