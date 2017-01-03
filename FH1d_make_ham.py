@@ -4,12 +4,13 @@ import numpy as np
 
 LENGTH = 16
 
-num_up_ferms = 2
+num_up_ferms = 4
 #initial_fermion_up = [0,0,0,0,1,1,0,0,0,0]
 #initial_fermion_up = [0,1,1,0]
 initial_fermion_up = [0 for _ in range(LENGTH)]
 #initial_fermion_up[LENGTH//2] = 1
-for i in range(num_up_ferms//2): initial_fermion_up[LENGTH//2-1-i] = initial_fermion_up[LENGTH//2+i] = 1
+#for i in range(num_up_ferms//2): initial_fermion_up[LENGTH//2-1-i] = initial_fermion_up[LENGTH//2+i] = 1
+initial_fermion_up = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
 initial_fermion_down = initial_fermion_up[:]
 initial_state = b.State({'up': initial_fermion_up, 'down': initial_fermion_down})
 
