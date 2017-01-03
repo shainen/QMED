@@ -29,11 +29,12 @@ cp -r ${prj} $$SCRATCH_DIR/
 cd $$SCRATCH_DIR/
 
 # Run the script
-time python ${prj}/QMdynamics.py
+time python ${prj}/makes3test.py
 
 # Remove the now-useless files
 rm -r ${prj} 
 """)
 
-with open("../"+runname+".qsub", "w") as f:
-    f.write(qsubfile.substitute(rname=runname,prj=project,tp=topic))
+#with open("../"+runname+".qsub", "w") as f:
+f = open("../"+runname+".qsub", "w")
+f.write(qsubfile.substitute(rname=runname,prj=project,tp=topic))
