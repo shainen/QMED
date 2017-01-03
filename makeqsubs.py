@@ -29,7 +29,7 @@ cp -r ${prj} $$SCRATCH_DIR/
 cd $$SCRATCH_DIR/
 
 # Run the script
-time python ${prj}/makes3test.py
+time python ${prj}/dyntest.py
 
 # Remove the now-useless files
 rm -r ${prj} 
