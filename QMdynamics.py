@@ -2,13 +2,13 @@ import ed_build_hil as b
 import numpy as np
 import pickle
 
-data_dir="/data/shainen/161222_1_s16_FH_lr_make_mats/"
+data_dir="/data/shainen/170103_4_s16_FH_lr_make_mats/"
 
 hop_mat=b.load_sparse_csr(data_dir+"l16_FH_lr_hop.npz")
 int_mat=b.load_sparse_csr(data_dir+"l16_FH_lr_int.npz")
 state_dict = pickle.load( open( data_dir+"s16_FH_lr_statedict.p", "rb" ) )
 
-U = 1
+U = 0
 
 LENGTH = 16
 DIMENSION = hop_mat.shape[0]
