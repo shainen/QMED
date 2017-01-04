@@ -27,6 +27,7 @@ ham = - hop_mat + U*int_mat
 
 hop_mat = None
 int_mat = None
+state_dict = None
 
 init_vec = np.zeros(DIMENSION)
 init_vec[0] = 1
