@@ -37,6 +37,18 @@ def make_matrices_and_states(initial_state, dim, *funcs):
         print('guessed: ' + str(dim) + ' actual: ' + str(len(state_dict)))
     return (state_dict, csr_mats)
 
+def _coord_from_num(num,dim):
+    coord = []
+    num_left = num
+    div = np.product(dim[1:])
+    for base in dim[1:]:
+        digit = num_left//div
+        coord.append(digit)
+        num_left -= digit * div
+        div //= base
+    coord.append(num_left)
+    return np.array(coord)
+
 def _fermion_hop_1d(state, i, direc, spin, alpha=1):
     length = len(state[spin])
     if state[spin][i] == 0 and state[spin][(i+direc)%length] == 1:
@@ -49,6 +61,22 @@ def _fermion_hop_1d(state, i, direc, spin, alpha=1):
     else:
         return (None, None)
 
+def _fermion_hop(state, i, direc, spin, alpha=1, dim=False):
+    length = len(state[spin])
+    if not dim:
+        dim = [length]
+    if state[spin][i] == 0 and state[spin][(i+direc)%length] == 1:
+        res_state = deepcopy(state)
+        res_state[spin][i] = 1
+        res_state[spin][(i+direc)%length] = 0
+        num_between = (sum(state[spin][i+1:(i+direc)%length]) 
+            if direc > 0 else sum(state[spin][(i+direc)%length+1:i]))
+        distance = np.linalg.norm(_coord_from_num(i,dim)
+                                  -_coord_from_num((i+direc)%length,dim))
+        return (res_state, (-1)**num_between/distance**alpha)
+    else:
+        return (None, None)
+    
 def hop_nn_ob(state, state_dict, next_states, build_hop):
     length = len(state['up'])
     for spin in ('up','down'):
@@ -65,6 +93,14 @@ def hop_lr_a1_ob(state, state_dict, next_states, build_hop):
         for i in range(length):
             for direc in range(-i,length-i):
                 res_state, overlap = _fermion_hop_1d(state,i,direc,spin,1)
+                _add_to_mat(state, res_state, overlap, state_dict, next_states, build_hop)
+
+def hop_lr_ob(state, state_dict, next_states, build_hop,alpha,dim):
+    length = len(state['up'])
+    for spin in ('up','down'):
+        for i in range(length):
+            for direc in range(-i,length-i):
+                res_state, overlap = _fermion_hop(state,i,direc,spin,alpha,dim)
                 _add_to_mat(state, res_state, overlap, state_dict, next_states, build_hop)
 
 def make_diag_ops(state_dict, func):
