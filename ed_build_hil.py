@@ -49,6 +49,14 @@ def _coord_from_num(num,dim):
     coord.append(num_left)
     return np.array(coord)
 
+def _num_from_coord(coord,dim):
+    num = coord[-1]
+    base = 1
+    for d, c in zip(dim[:0:-1], coord[-2::-1]):
+        base *= d
+        num += base * c
+    return num
+
 def _fermion_hop_1d(state, i, direc, spin, alpha=1):
     length = len(state[spin])
     if state[spin][i] == 0 and state[spin][(i+direc)%length] == 1:
@@ -86,6 +94,16 @@ def hop_nn_ob(state, state_dict, next_states, build_hop):
         for i in range(1,length):
             res_state, overlap = _fermion_hop_1d(state,i,-1,spin)
             _add_to_mat(state, res_state, overlap, state_dict, next_states, build_hop)
+
+def hop_nn_2d_ob(state, state_dict, next_states, build_hop, dim):
+    sites = len(state['up'])
+    for spin in ('up','down'):
+        for i in range(sites):
+            for vec in np.array([[-1,0],[1,0],[0,-1],[0,1]]):
+                new_coord = _coord_from_num(i,dim)+vec
+                if np.less_equal([0,0],new_coord).all() and np.less(new_coord,dim).all():
+                    res_state, overlap = _fermion_hop_1d(state,i,_num_from_coord(new_coord,dim)-i,spin)
+                    _add_to_mat(state, res_state, overlap, state_dict, next_states, build_hop)
 
 def hop_lr_a1_ob(state, state_dict, next_states, build_hop):
     length = len(state['up'])
