@@ -10,13 +10,13 @@ import numpy as np
 #initial_fermion_up = [0 for _ in range(LENGTH)]
 #initial_fermion_up[LENGTH//2] = 1
 #for i in range(num_up_ferms//2): initial_fermion_up[LENGTH//2-1-i] = initial_fermion_up[LENGTH//2+i] = 1
-# initial_fermion_up = [0, 0, 0, 0,
-#                       0, 1, 1, 0,
-#                       0, 1, 1, 0,
-#                       0, 0, 0, 0]
-initial_fermion_up = [0, 0, 0,
-                      0, 1, 0,
-                      0, 0, 0]
+initial_fermion_up = [0, 0, 0, 0,
+                      0, 1, 1, 0,
+                      0, 1, 1, 0,
+                      0, 0, 0, 0]
+# initial_fermion_up = [0, 0, 0,
+#                       0, 1, 0,
+#                       0, 0, 0]
 initial_fermion_down = initial_fermion_up[:]
 initial_state = b.State({'up': initial_fermion_up, 'down': initial_fermion_down})
 
@@ -40,12 +40,12 @@ def hop(state, state_dict, next_states, build_hop):
 state_dict, [hop_mat] = b.make_matrices_and_states(initial_state, DIMENSION, hop)
 
 import pickle
-pickle.dump( state_dict, open( "s16_FH2d_lr_statedict.p", "wb" ) )
-b.save_sparse_csr("l16_FH2d_lr_hop",hop_mat)
+pickle.dump( state_dict, open( "s16_FH2d_nn_statedict.p", "wb" ) )
+b.save_sparse_csr("l16_FH2d_nn_hop",hop_mat)
 
 int_mat = b.make_diag_ops(state_dict, lambda x: np.dot(x['up'],x['down']))
 
-b.save_sparse_csr("l16_FH2d_lr_int",int_mat)
+b.save_sparse_csr("l16_FH2d_nn_int",int_mat)
 
 
 
