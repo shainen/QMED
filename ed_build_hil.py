@@ -102,7 +102,7 @@ def hop_nn_2d_ob(state, state_dict, next_states, build_hop, dim):
             for vec in np.array([[-1,0],[1,0],[0,-1],[0,1]]):
                 new_coord = _coord_from_num(i,dim)+vec
                 if np.less_equal([0,0],new_coord).all() and np.less(new_coord,dim).all():
-                    res_state, overlap = _fermion_hop_1d(state,i,_num_from_coord(new_coord,dim)-i,spin)
+                    res_state, overlap = _fermion_hop(state,i,_num_from_coord(new_coord,dim)-i,spin,1,dim)
                     _add_to_mat(state, res_state, overlap, state_dict, next_states, build_hop)
 
 def hop_lr_a1_ob(state, state_dict, next_states, build_hop):
