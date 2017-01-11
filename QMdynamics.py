@@ -2,7 +2,7 @@ import ed_build_hil as b
 import numpy as np
 import pickle
 
-data_dir="/data/shainen/170109_9_s16_FH2d_nn_make_mats/"
+data_dir="/data/shainen/170110_9_s16_FH2d_nn_make_mats/"
 #data_dir=""
 
 hop_mat=b.load_sparse_csr(data_dir+"l16_FH2d_nn_hop.npz")

@@ -29,7 +29,7 @@ cp -r ${prj} $$SCRATCH_DIR/
 cd $$SCRATCH_DIR/
 
 # Run the script
-time python ${prj}/FH2d_make_ham.py
+time python ${prj}/QMdynamics.py
 
 # Remove the now-useless files
 rm -r ${prj} 
