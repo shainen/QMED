@@ -22,7 +22,7 @@ def _add_to_mat(state, res_state, overlap, state_dict, next_states, mat):
             mat[state_dict[str(res_state)],state_dict[str(state)]] += overlap
 
 def make_matrices_and_states(initial_state, dim, *funcs):
-    mats = [lil_matrix((dim,dim)) for _ in funcs]
+    mats = [lil_matrix((dim,dim), dtype=np.cfloat) for _ in funcs]
     state_dict = {str(initial_state): 0}
     next_states = [initial_state]
     while next_states:
@@ -121,6 +121,22 @@ def hop_lr_ob(state, state_dict, next_states, build_hop,alpha,dim):
                 res_state, overlap = _fermion_hop(state,i,direc,spin,alpha,dim)
                 _add_to_mat(state, res_state, overlap, state_dict, next_states, build_hop)
 
+def SYK_model(state, state_dict, next_states, build_mat, J_coup):
+    sites = len(state['up'])
+    for i in range(sites):
+        for j in range(sites):
+            for k in range(sites):
+                for l in range(sites):
+                    res_state, overlap = _fermion_hop(state,j,l-j,'up',0)
+                    if res_state:
+                        res_state2, overlap2 = _fermion_hop(res_state,i,k-i,'up',0)
+                        if res_state2:
+                            _add_to_mat(state, res_state2, -overlap*overlap2*J_coup[i,j,k,l], state_dict, next_states, build_mat)
+                    if k==j:
+                        res_state, overlap = _fermion_hop(state,i,l-i,'up',0)
+                        if res_state:
+                            _add_to_mat(state, res_state, overlap*J_coup[i,j,k,l], state_dict, next_states, build_mat)
+                
 def make_diag_ops(state_dict, func):
     dim = len(state_dict)
     mat = lil_matrix((dim,dim))

@@ -11,8 +11,6 @@ qsubfile = Template("""
 #!/bin/sh
 
 #$$ -j y
-#$$ -l h_rt=40:00:00
-#$$ -l mem_per_core =12G
 #$$ -V
 #$$ -m ea
 #$$ -M shainen@gmail.com
@@ -31,7 +29,7 @@ cp -r ${prj} $$SCRATCH_DIR/
 cd $$SCRATCH_DIR/
 
 # Run the script
-time python ${prj}/FH1d_make_ham.py
+time python ${prj}/SYK_make_ham.py
 
 # Remove the now-useless files
 rm -r ${prj} 
