@@ -39,11 +39,10 @@ J_imag = J_imag - np.transpose(J_imag,(2,3,0,1))
 
 J_coup = J_real + 1j*J_imag
 
-b=J_coup.reshape(1,J_coup.size)
-r=np.real(b)
-i=np.imag(b)
-np.savetxt("flatJreal.CSV",r,delimiter=',')
-np.savetxt("flatJimag.CSV",i,delimiter=',')
+reflat=J_real.reshape(1,J_real.size)
+imflat=J_imag.reshape(1,J_imag.size)
+np.savetxt("flatJreal.CSV",reflat,delimiter=',')
+np.savetxt("flatJimag.CSV",imflat,delimiter=',')
 
 #print(J_coup)
 
