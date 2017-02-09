@@ -11,7 +11,8 @@ qsubfile = Template("""
 #!/bin/sh
 
 #$$ -j y
-#$$ -l h_rt=40:00:00                                                                 #$$ -l mem_per_core=8G
+#$$ -l h_rt=40:00:00
+#$$ -l mem_per_core=8G
 #$$ -V
 #$$ -m ea
 #$$ -M shainen@gmail.com

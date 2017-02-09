@@ -39,7 +39,13 @@ J_imag = J_imag - np.transpose(J_imag,(2,3,0,1))
 
 J_coup = J_real + 1j*J_imag
 
-print(J_coup)
+b=J_coup.reshape(1,J_coup.size)
+r=np.real(b)
+i=np.imag(b)
+np.savetxt("flatJreal.CSV",r,delimiter=',')
+np.savetxt("flatJimag.CSV",i,delimiter=',')
+
+#print(J_coup)
 
 def SYKint(state, state_dict, next_states, build_mat):
     return b.SYK_model(state, state_dict, next_states, build_mat, J_coup)
@@ -49,9 +55,3 @@ state_dict, [SYK_mat] = b.make_matrices_and_states(initial_state, DIMENSION, SYK
 import pickle
 pickle.dump( state_dict, open( "s"+str(SITES)+"SYK_statedict.p", "wb" ) )
 b.save_sparse_csr("s"+str(SITES)+"_SYK_mat",SYK_mat)
-
-b=J_coup.reshape(1,J_coup.size)
-r=np.real(b)
-i=np.imag(b)
-np.savetxt("flatJreal.CSV",r,delimiter=',')
-np.savetxt("flatJimag.CSV",i,delimiter=',')
