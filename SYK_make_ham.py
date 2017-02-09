@@ -10,7 +10,8 @@ import numpy as np
 #initial_fermion_up = [0 for _ in range(LENGTH)]
 #initial_fermion_up[LENGTH//2] = 1
 #for i in range(num_up_ferms//2): initial_fermion_up[LENGTH//2-1-i] = initial_fermion_up[LENGTH//2+i] = 1
-initial_fermion_up = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
+initial_fermion_up = [1 for _ in range(5)] + [0 for _ in range(15)]
+#[0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
 initial_state = b.State({'up': initial_fermion_up})
 
 print(str(initial_state))
@@ -48,4 +49,9 @@ state_dict, [SYK_mat] = b.make_matrices_and_states(initial_state, DIMENSION, SYK
 import pickle
 pickle.dump( state_dict, open( "s"+str(SITES)+"SYK_statedict.p", "wb" ) )
 b.save_sparse_csr("s"+str(SITES)+"_SYK_mat",SYK_mat)
-np.save("J_coup",J_coup)
+
+b=J_coup.reshape(1,J_coup.size)
+r=np.real(b)
+i=np.imag(b)
+np.savetxt("flatJreal.CSV",r,delimiter=',')
+np.savetxt("flatJimag.CSV",i,delimiter=',')
