@@ -2,15 +2,15 @@ import ed_build_hil as b
 import numpy as np
 import pickle
 
-data_dir="/Users/shainen/Dropbox/Research/fTWA/SYK model/data/170207_1_s16f4/"
+data_dir="/projectnb/twambl/170209_1_s20f5/"
 
-ham=b.load_sparse_csr(data_dir+"s16_SYK_mat.npz")
+ham=b.load_sparse_csr(data_dir+"s20_SYK_mat.npz")
 #int_mat=b.load_sparse_csr(data_dir+"l16_FH_nn_int.npz")
-state_dict = pickle.load( open( data_dir+"s16SYK_statedict.p", "rb" ) )
+state_dict = pickle.load( open( data_dir+"s20SYK_statedict.p", "rb" ) )
 
 #U = 0
 
-LENGTH = 16
+LENGTH = 20
 DIMENSION = ham.shape[0]
 
 TMAX = 0.01
