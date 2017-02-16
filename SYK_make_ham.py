@@ -10,7 +10,7 @@ import numpy as np
 #initial_fermion_up = [0 for _ in range(LENGTH)]
 #initial_fermion_up[LENGTH//2] = 1
 #for i in range(num_up_ferms//2): initial_fermion_up[LENGTH//2-1-i] = initial_fermion_up[LENGTH//2+i] = 1
-initial_fermion_up = [1 for _ in range(5)] + [0 for _ in range(15)]
+initial_fermion_up = [1 for _ in range(6)] + [0 for _ in range(3)]
 #[0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
 initial_state = b.State({'up': initial_fermion_up})
 
@@ -49,8 +49,15 @@ np.savetxt("flatJimag.CSV",imflat,delimiter=',')
 def SYKint(state, state_dict, next_states, build_mat):
     return b.SYK_model(state, state_dict, next_states, build_mat, J_coup)
 
-state_dict, [SYK_mat] = b.make_matrices_and_states(initial_state, DIMENSION, SYKint)
+#funcs = [SYKint, b.correlation(1,2)]
+funcs = [SYKint] + [b.correlation(i,j) for i in range(SITES) for j in range(SITES)]
+
+state_dict, mats = b.make_matrices_and_states(initial_state, DIMENSION, *funcs)
 
 import pickle
 pickle.dump( state_dict, open( "s"+str(SITES)+"SYK_statedict.p", "wb" ) )
-b.save_sparse_csr("s"+str(SITES)+"_SYK_mat",SYK_mat)
+b.save_sparse_csr("s"+str(SITES)+"_SYK_mat",mats[0])
+for i in range(SITES):
+    for j in range(SITES):
+        b.save_sparse_csr("s"+str(SITES)+"_corr"+str(i)+str(j),mats[SITES*i+j+1])
+

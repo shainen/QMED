@@ -136,7 +136,14 @@ def SYK_model(state, state_dict, next_states, build_mat, J_coup):
                         res_state, overlap = _fermion_hop(state,i,l-i,'up',0)
                         if res_state:
                             _add_to_mat(state, res_state, overlap*J_coup[i,j,k,l], state_dict, next_states, build_mat)
-                
+
+def _corr_build(i,j,state, state_dict, next_states, build_mat):
+    res_state, overlap = _fermion_hop(state,i,j-i,'up',0)
+    _add_to_mat(state, res_state, overlap, state_dict, next_states, build_mat)
+
+def correlation(i,j):
+    return lambda state, state_dict, next_states, build_mat: _corr_build(i,j,state, state_dict, next_states, build_mat)
+    
 def make_diag_ops(state_dict, func):
     dim = len(state_dict)
     mat = lil_matrix((dim,dim))
@@ -160,6 +167,12 @@ def _expec_diag_ops(psi,ops):
                    ops)
             ))
 
+def _expec_ops(psi,ops):
+    return list(
+                map(lambda op: np.dot(np.conj(psi),op.dot(psi)),
+                   ops)
+            )
+
 def diag_ops_dynamics(psi_0, ham, tsteps, dt, ops):
     ops_t = []
     psi_t = psi_0
@@ -175,3 +188,22 @@ def diag_ops_dynamics(psi_0, ham, tsteps, dt, ops):
         print(t3-t2)
 
     return np.array(ops_t).transpose()
+
+def both_ops_dynamics(psi_0, ham, tsteps, dt, dops, mops):
+    dops_t = []
+    mops_t = []
+    psi_t = psi_0
+
+    dops_t.append(_expec_diag_ops(psi_t,dops))
+    mops_t.append(_expec_ops(psi_t,mops))
+    for _ in range(tsteps - 1):
+        t1 = time.time()
+        psi_t = expm_multiply(1j*dt*ham,psi_t)
+        t2 = time.time()
+        print(t2-t1)
+        dops_t.append(_expec_diag_ops(psi_t,dops))
+        mops_t.append(_expec_ops(psi_t,mops))
+        t3 = time.time()
+        print(t3-t2)
+
+    return (np.array(dops_t).transpose(),np.array(mops_t).transpose())
