@@ -84,6 +84,22 @@ def _fermion_hop(state, i, direc, spin, alpha=1, dim=False):
         return (res_state, (-1)**num_between/distance**alpha)
     else:
         return (None, None)
+
+def _cdagc(state, i, j, spin):
+    if i == j:
+        if state[spin][i] == 1:
+            return (state, 1)
+        else:
+            return (None, None)
+    elif state[spin][i] == 0 and state[spin][j] == 1:
+        res_state = deepcopy(state)
+        res_state[spin][i] = 1
+        res_state[spin][j] = 0
+        num_between = (sum(state[spin][i+1:j])
+            if i < j else sum(state[spin][j+1:i]))
+        return (res_state, (-1)**num_between)
+    else:
+        return (None, None)
     
 def hop_nn_ob(state, state_dict, next_states, build_hop):
     length = len(state['up'])
@@ -127,18 +143,19 @@ def SYK_model(state, state_dict, next_states, build_mat, J_coup):
         for j in range(sites):
             for k in range(sites):
                 for l in range(sites):
-                    res_state, overlap = _fermion_hop(state,j,l-j,'up',0)
+#                    print(i,j,k,l)
+                    res_state, overlap = _cdagc(state,j,l,'up')
                     if res_state:
-                        res_state2, overlap2 = _fermion_hop(res_state,i,k-i,'up',0)
+                        res_state2, overlap2 = _cdagc(res_state,i,k,'up')
                         if res_state2:
                             _add_to_mat(state, res_state2, -overlap*overlap2*J_coup[i,j,k,l], state_dict, next_states, build_mat)
                     if k==j:
-                        res_state, overlap = _fermion_hop(state,i,l-i,'up',0)
+                        res_state, overlap = _cdagc(state,i,l,'up')
                         if res_state:
                             _add_to_mat(state, res_state, overlap*J_coup[i,j,k,l], state_dict, next_states, build_mat)
 
 def _corr_build(i,j,state, state_dict, next_states, build_mat):
-    res_state, overlap = _fermion_hop(state,i,j-i,'up',0)
+    res_state, overlap = _cdagc(state,i,j,'up')
     _add_to_mat(state, res_state, overlap, state_dict, next_states, build_mat)
 
 def correlation(i,j):
@@ -180,7 +197,7 @@ def diag_ops_dynamics(psi_0, ham, tsteps, dt, ops):
     ops_t.append(_expec_diag_ops(psi_t,ops))
     for _ in range(tsteps - 1):
         t1 = time.time()
-        psi_t = expm_multiply(1j*dt*ham,psi_t)
+        psi_t = expm_multiply(-1j*dt*ham,psi_t)
         t2 = time.time()
         print(t2-t1)
         ops_t.append(_expec_diag_ops(psi_t,ops))
@@ -198,7 +215,7 @@ def both_ops_dynamics(psi_0, ham, tsteps, dt, dops, mops):
     mops_t.append(_expec_ops(psi_t,mops))
     for _ in range(tsteps - 1):
         t1 = time.time()
-        psi_t = expm_multiply(1j*dt*ham,psi_t)
+        psi_t = expm_multiply(-1j*dt*ham,psi_t)
         t2 = time.time()
         print(t2-t1)
         dops_t.append(_expec_diag_ops(psi_t,dops))
