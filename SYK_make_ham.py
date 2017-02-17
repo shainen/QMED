@@ -47,7 +47,7 @@ print(DIMENSION)
 datadir ='/projectnb/twambl/170207_1_s16f4/'
 
 J_real = np.loadtxt(datadir+"flatJreal.CSV",delimiter=',')
-J_real = np.loadtxt(datadir+"flatJimag.CSV",delimiter=',')
+J_imag = np.loadtxt(datadir+"flatJimag.CSV",delimiter=',')
 J_coup = (J_real + 1j*J_imag).reshape(SITES,SITES,SITES,SITES)
 
 #print(J_coup)
