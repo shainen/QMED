@@ -2,10 +2,10 @@ import ed_build_hil as b
 import numpy as np
 import pickle
 
-data_dir="/projectnb/twambl/170216_1_s9f6/"
+data_dir="/projectnb/twambl/170217_1_s16f4_good/"
 #data_dir="/Users/shainen/Dropbox/Research/fTWA/fermion velocity/QMED/"
 
-LENGTH = 9
+LENGTH = 16
 
 ham=b.load_sparse_csr(data_dir+"s"+str(LENGTH)+"_SYK_mat.npz")
 corr_mats = [b.load_sparse_csr(data_dir+"s"+str(LENGTH)+"_corr"+str(i)+str(j)+".npz") for i in range(LENGTH) for j in range(LENGTH)]
