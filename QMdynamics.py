@@ -18,9 +18,6 @@ state_dict = pickle.load( open( data_dir+"s16_FH_lr_statedict.p", "rb" ) )
 
 U = 2
 
-
-DIMENSION = ham.shape[0]
-
 TMAX = 10
 TSTEPS = 100
 DT = TMAX/TSTEPS
@@ -36,6 +33,8 @@ ham = - hop_mat + U*int_mat
 hop_mat = None
 int_mat = None
 state_dict = None
+
+DIMENSION = ham.shape[0]
 
 init_vec = np.zeros(DIMENSION)
 init_vec[0] = 1
