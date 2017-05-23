@@ -25,19 +25,21 @@ DIMENSION = int(fermion_comb(num_up_ferms))
 
 print(DIMENSION)
 
-sigma = 1
+sigma = 1/np.sqrt(2)
 
 J_real = np.random.normal(0,sigma,(SITES,SITES,SITES,SITES))
-J_real = J_real - np.transpose(J_real,(1,0,2,3))
-J_real = J_real - np.transpose(J_real,(0,1,3,2))
-J_real = J_real + np.transpose(J_real,(2,3,0,1))
+# J_real = J_real - np.transpose(J_real,(1,0,2,3))
+# J_real = J_real - np.transpose(J_real,(0,1,3,2))
+# J_real = J_real + np.transpose(J_real,(2,3,0,1))
 
 J_imag = np.random.normal(0,sigma,(SITES,SITES,SITES,SITES))
-J_imag = J_imag - np.transpose(J_imag,(1,0,2,3))
-J_imag = J_imag - np.transpose(J_imag,(0,1,3,2))
-J_imag = J_imag - np.transpose(J_imag,(2,3,0,1))
+# J_imag = J_imag - np.transpose(J_imag,(1,0,2,3))
+# J_imag = J_imag - np.transpose(J_imag,(0,1,3,2))
+# J_imag = J_imag - np.transpose(J_imag,(2,3,0,1))
 
-J_coup = J_real + 1j*J_imag
+J_full = J_real + 1j*J_imag
+J_sym = J_full + np.conj(np.transpose(J_full,(3,2,1,0))))
+J_coup = J_sym/np.sqrt(2)
 
 reflat=J_real.reshape(1,J_real.size)
 imflat=J_imag.reshape(1,J_imag.size)
