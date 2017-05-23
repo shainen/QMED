@@ -38,7 +38,7 @@ J_imag = np.random.normal(0,sigma,(SITES,SITES,SITES,SITES))
 # J_imag = J_imag - np.transpose(J_imag,(2,3,0,1))
 
 J_full = J_real + 1j*J_imag
-J_sym = J_full + np.conj(np.transpose(J_full,(3,2,1,0))))
+J_sym = J_full + np.conj(np.transpose(J_full,(3,2,1,0)))
 J_coup = J_sym/np.sqrt(2)
 
 reflat=J_real.reshape(1,J_real.size)
