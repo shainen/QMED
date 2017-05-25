@@ -10,7 +10,7 @@ import numpy as np
 #initial_fermion_up = [0 for _ in range(LENGTH)]
 #initial_fermion_up[LENGTH//2] = 1
 #for i in range(num_up_ferms//2): initial_fermion_up[LENGTH//2-1-i] = initial_fermion_up[LENGTH//2+i] = 1
-initial_fermion_up = [1 for _ in range(10)] + [0 for _ in range(10)]
+initial_fermion_up = [1 for _ in range(9)] + [0 for _ in range(9)]
 #initial_fermion_up = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
 initial_state = b.State({'up': initial_fermion_up})
 
@@ -57,7 +57,7 @@ np.savetxt("flatJimag.CSV",imflat,delimiter=',')
 def SYKint(state, state_dict, next_states, build_mat):
     return b.SYK_model(state, state_dict, next_states, build_mat, J_coup)
 
-funcs = [SYKint, b.correlation(1,2)]
+funcs = [SYKint]
 #funcs = [SYKint] + [b.correlation(i,j) for i in range(SITES) for j in range(SITES)]
 
 state_dict, mats = b.make_matrices_and_states(initial_state, DIMENSION, *funcs)
