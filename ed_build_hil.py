@@ -37,6 +37,23 @@ def make_matrices_and_states(initial_state, dim, *funcs):
         print('guessed: ' + str(dim) + ' actual: ' + str(len(state_dict)))
     return (state_dict, csr_mats)
 
+def make_matrices_from_states(state_dict, func):
+    dim = len(state_dict) 
+    mat = lil_matrix((dim,dim), dtype=np.cfloat)
+    next_states = []
+    for ind, val in state_dict.items():
+        current_state = eval(ind)
+        func(current_state, state_dict, next_states, mat)
+    csr_mat = mat.tocsr()
+    return csr_mat
+
+def quad_pert_ham(state, state_dict, next_states, build_mat, T_coup):
+    sites = len(state['up'])
+    for i in range(sites):
+        for j in range(sites):
+            res_state, overlap = _cdagc(state,i,j,'up')
+            _add_to_mat(state, res_state, T_coup[i,j]*overlap, state_dict, next_states, build_mat)
+            
 def _coord_from_num(num,dim):
     coord = []
     num_left = num
@@ -153,13 +170,6 @@ def SYK_model(state, state_dict, next_states, build_mat, J_coup):
                         res_state, overlap = _cdagc(state,i,l,'up')
                         if res_state:
                             _add_to_mat(state, res_state, overlap*J_coup[i,j,k,l], state_dict, next_states, build_mat)
-
-def quad_pert_ham(state, state_dict, next_states, build_mat, T_coup):
-    sites = len(state['up'])
-    for i in range(sites):
-        for j in range(sites):
-            res_state, overlap = _cdagc(state,i,j,'up')
-            _add_to_mat(state, res_state, T_coup[i,j]*overlap, state_dict, next_states, build_mat)
 
 def _corr_build(i,j,state, state_dict, next_states, build_mat):
     res_state, overlap = _cdagc(state,i,j,'up')
