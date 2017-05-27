@@ -3,8 +3,8 @@ import numpy as np
 import pickle
 
 data_dir="/projectnb/twambl/170525_1_s18f9_makemats/"
-LENGTH = 18
-state_dict = pickle.load( open( data_dir+"s"+str(LENGTH)+"SYK_statedict.p", "rb" ) )
+SITES = 18
+state_dict = pickle.load( open( data_dir+"s"+str(SITES)+"SYK_statedict.p", "rb" ) )
 
 sigma = 1
 
