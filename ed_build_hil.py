@@ -52,7 +52,8 @@ def quad_pert_ham(state, state_dict, next_states, build_mat, T_coup):
     for i in range(sites):
         for j in range(sites):
             res_state, overlap = _cdagc(state,i,j,'up')
-            _add_to_mat(state, res_state, T_coup[i,j]*overlap, state_dict, next_states, build_mat)
+            if overlap:
+                _add_to_mat(state, res_state, T_coup[i,j]*overlap, state_dict, next_states, build_mat)
             
 def _coord_from_num(num,dim):
     coord = []
