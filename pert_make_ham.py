@@ -5,6 +5,7 @@ import pickle
 data_dir="/projectnb/twambl/170525_1_s18f9_makemats/"
 SITES = 18
 state_dict = pickle.load( open( data_dir+"s"+str(SITES)+"SYK_statedict.p", "rb" ) )
+DIMENSION = len(state_dict)
 
 sigma = 1
 
