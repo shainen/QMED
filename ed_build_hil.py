@@ -154,6 +154,13 @@ def SYK_model(state, state_dict, next_states, build_mat, J_coup):
                         if res_state:
                             _add_to_mat(state, res_state, overlap*J_coup[i,j,k,l], state_dict, next_states, build_mat)
 
+def quad_pert_ham(state, state_dict, next_states, build_mat, T_coup):
+    sites = len(state['up'])
+    for i in range(sites):
+        for j in range(sites):
+            res_state, overlap = _cdagc(state,i,j,'up')
+            _add_to_mat(state, res_state, T_coup[i,j]*overlap, state_dict, next_states, build_mat)
+
 def _corr_build(i,j,state, state_dict, next_states, build_mat):
     res_state, overlap = _cdagc(state,i,j,'up')
     _add_to_mat(state, res_state, overlap, state_dict, next_states, build_mat)
