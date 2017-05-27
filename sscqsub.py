@@ -31,8 +31,8 @@ cp -r ${prj} $$SCRATCH_DIR/
 cd $$SCRATCH_DIR/
 
 # Run the script
-#time python ${prj}/SYK_make_ham.py
-time python ${prj}/QMdynamics.py
+time python ${prj}/pert_make_ham.py
+#time python ${prj}/QMdynamics.py
 
 # Remove the now-useless files
 rm -r ${prj} 
