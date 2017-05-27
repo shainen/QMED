@@ -222,7 +222,8 @@ def diag_ops_dynamics(psi_0, ham, tsteps, dt, ops):
         t3 = time.time()
         print(t3-t2)
 
-    return np.array(ops_t).transpose()
+    psi_t = expm_multiply(-1j*dt*ham,psi_t)
+    return (np.array(ops_t).transpose(), psi_t)
 
 def both_ops_dynamics(psi_0, ham, tsteps, dt, dops, mops):
     dops_t = []
