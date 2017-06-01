@@ -17,8 +17,10 @@ state_dict = pickle.load( open( data_dir+"s"+str(LENGTH)+"SYK_statedict.p", "rb"
 
 DIMENSION = len(state_dict)
 
-TMAX = 0.06
-TPERT = 0.002
+from constants import *
+
+#TMAX = 0.06
+TPERT = 0.05
 EXTRA = 0.25
 
 DT = 0.0001
