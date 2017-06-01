@@ -18,7 +18,7 @@ qsubfile = Template("""
 #$$ -M shainen@gmail.com
 
 RUN_NAME=${rname}
-SCRATCH_DIR=/projectnb/twambl/$$RUN_NAME
+SCRATCH_DIR=/projectnb/twambl/$$RUN_NAME/r$$SGE_TASK_ID
 LOCAL_DIR=/project/twambl/${tp}
 
 mkdir -p $$SCRATCH_DIR
