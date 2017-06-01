@@ -32,7 +32,7 @@ cd $$SCRATCH_DIR/
 
 # Run the script
 cd ${prj}
-echo "TMAX = $$SGE_TASK_ID/100" > constants.py
+echo "TMAX = $$SGE_TASK_ID/100." > constants.py
 cd ..
 #time python ${prj}/pert_make_ham.py
 time python ${prj}/QMdynamics.py
