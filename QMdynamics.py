@@ -48,6 +48,9 @@ num_up_t_pert, psi_p = b.diag_ops_dynamics(psi_t, pert_ham, TSTEPS_PERT, DT, num
 overlap = np.dot(psi_t,psi_p)
 norm = np.sqrt(1-np.absolute(overlap)**2)
 phi = (psi_p - overlap*psi_t)/norm
+print "\noverlap: " + str(overlap)
+print "\namount of preperp: " + str(np.dot(psi_t,phi))
+print "\namount of postperp: " + str(np.dot(psi_p,phi))
 num_up_t_backwards, psi_f = b.diag_ops_dynamics(phi, SYK_ham, TSTEPS_BACK, -DT, num_up_diag)
 #num_up_t , exp_corrs = b.both_ops_dynamics(init_vec, ham, TSTEPS, DT, num_up_diag, corr_mats)
 
