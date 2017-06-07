@@ -20,7 +20,7 @@ DIMENSION = len(state_dict)
 from constants import *
 
 #TMAX = 0.06
-TPERT = 0.05
+TPERT = 0.3
 EXTRA = 0.25
 
 DT = 0.0001
