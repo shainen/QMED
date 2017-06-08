@@ -20,7 +20,7 @@ DIMENSION = len(state_dict)
 from constants import *
 
 #TMAX = 0.06
-TPERT = 0.3
+TPERT = 0.05
 EXTRA = 0.25
 
 DT = 0.0001
@@ -51,6 +51,7 @@ phi = (psi_p - overlap*psi_t)/norm
 print "\noverlap: " + str(overlap)
 print "\namount of preperp: " + str(np.vdot(psi_t,phi))
 print "\namount of postperp: " + str(np.vdot(psi_p,phi))
+print "\nnorm of new vector: " + str(np.vdot(phi,phi))
 num_up_t_backwards, psi_f = b.diag_ops_dynamics(phi, SYK_ham, TSTEPS_BACK, -DT, num_up_diag)
 #num_up_t , exp_corrs = b.both_ops_dynamics(init_vec, ham, TSTEPS, DT, num_up_diag, corr_mats)
 
