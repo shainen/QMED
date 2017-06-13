@@ -45,14 +45,14 @@ init_vec[0] = 1
 
 num_up_t_forward, psi_t = b.diag_ops_dynamics(init_vec, SYK_ham, TSTEPS, DT, num_up_diag)
 num_up_t_pert, psi_p = b.diag_ops_dynamics(psi_t, pert_ham, TSTEPS_PERT, DT, num_up_diag)
-overlap = np.vdot(psi_t,psi_p)
-norm = np.sqrt(1-np.absolute(overlap)**2)
-phi = (psi_p - overlap*psi_t)/norm
-print "\noverlap: " + str(overlap)
-print "\namount of preperp: " + str(np.vdot(psi_t,phi))
-print "\namount of postperp: " + str(np.vdot(psi_p,phi))
-print "\nnorm of new vector: " + str(np.vdot(phi,phi))
-num_up_t_backwards, psi_f = b.diag_ops_dynamics(phi, SYK_ham, TSTEPS_BACK, -DT, num_up_diag)
+# overlap = np.vdot(psi_t,psi_p)
+# norm = np.sqrt(1-np.absolute(overlap)**2)
+# phi = (psi_p - overlap*psi_t)/norm
+# print "\noverlap: " + str(overlap)
+# print "\namount of preperp: " + str(np.vdot(psi_t,phi))
+# print "\namount of postperp: " + str(np.vdot(psi_p,phi))
+# print "\nnorm of new vector: " + str(np.vdot(phi,phi))
+num_up_t_backwards, psi_f = b.diag_ops_dynamics(phi_p, SYK_ham, TSTEPS_BACK, -DT, num_up_diag)
 #num_up_t , exp_corrs = b.both_ops_dynamics(init_vec, ham, TSTEPS, DT, num_up_diag, corr_mats)
 
 #np.savetxt("s"+str(LENGTH)+"_FH_lr_u"+str(U)+".dat",num_up_t)
