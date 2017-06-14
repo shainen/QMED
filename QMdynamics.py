@@ -52,7 +52,7 @@ num_up_t_pert, psi_p = b.diag_ops_dynamics(psi_t, pert_ham, TSTEPS_PERT, DT, num
 # print "\namount of preperp: " + str(np.vdot(psi_t,phi))
 # print "\namount of postperp: " + str(np.vdot(psi_p,phi))
 # print "\nnorm of new vector: " + str(np.vdot(phi,phi))
-num_up_t_backwards, psi_f = b.diag_ops_dynamics(phi_p, SYK_ham, TSTEPS_BACK, -DT, num_up_diag)
+num_up_t_backwards, psi_f = b.diag_ops_dynamics(psi_p, SYK_ham, TSTEPS_BACK, -DT, num_up_diag)
 #num_up_t , exp_corrs = b.both_ops_dynamics(init_vec, ham, TSTEPS, DT, num_up_diag, corr_mats)
 
 #np.savetxt("s"+str(LENGTH)+"_FH_lr_u"+str(U)+".dat",num_up_t)
